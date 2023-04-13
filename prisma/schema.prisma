@@ -14,6 +14,8 @@ model User {
   id    String @id @default(uuid())
   name  String @unique
   meals Meal[]
+
+  @@map("users")
 }
 
 model Meal {
@@ -24,4 +26,6 @@ model Meal {
   createdAt   DateTime @default(now())
   userId      String
   user        User     @relation(fields: [userId], references: [id])
+
+  @@map("meals")
 }
