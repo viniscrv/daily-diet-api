@@ -5,7 +5,7 @@ import { z } from "zod";
 const prisma = new PrismaClient();
 
 export async function userRoutes(app: FastifyInstance) {
-    app.post("/user/register", async (req, res) => {
+    app.post("/user", async (req, res) => {
         const createUserBodySchema = z.object({
             name: z.string(),
         });
@@ -17,6 +17,10 @@ export async function userRoutes(app: FastifyInstance) {
                 name,
             },
         });
+
+        const user = await prisma.user.findFirst();
+
+        console.log(user!.id);
 
         return res.status(201).send();
     });

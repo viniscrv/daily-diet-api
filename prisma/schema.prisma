@@ -22,7 +22,7 @@ model Meal {
   id          String   @id @default(uuid())
   name        String
   description String
-  WithinDiet  Boolean
+  withinDiet  Boolean
   createdAt   DateTime @default(now())
   userId      String
   user        User     @relation(fields: [userId], references: [id])
