@@ -18,10 +18,6 @@ export async function userRoutes(app: FastifyInstance) {
             },
         });
 
-        const user = await prisma.user.findFirst();
-
-        console.log(user!.id);
-
         return res.status(201).send();
     });
 }

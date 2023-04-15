@@ -5,18 +5,37 @@ import { z } from "zod";
 const prisma = new PrismaClient();
 
 export async function mealsRoutes(app: FastifyInstance) {
-    app.post("/:username/meal", async (req, res) => {
+    app.get("/meal/:username", async (req, res) => {
+        const usernameParamsSchema = z.object({
+            username: z.string()
+        });
+
+        const { username } = usernameParamsSchema.parse(req.params);
+
+        const userMeals = await prisma.user.findUnique({
+            where: {
+                name: username
+            },
+            select: {
+                meals: true
+            }
+        });
+
+        return res.status(200).send({ allMeals: userMeals });
+    });
+
+    app.post("/meal/:username", async (req, res) => {
         const createMealBodySchema = z.object({
             name: z.string(),
             description: z.string(),
-            withinDiet: z.boolean(),
+            withinDiet: z.boolean()
         });
 
-        const userNameParamsSchema = z.object({
-            username: z.string(),
+        const usernameParamsSchema = z.object({
+            username: z.string()
         });
 
-        const { username } = userNameParamsSchema.parse(req.params);
+        const { username } = usernameParamsSchema.parse(req.params);
 
         const { name, description, withinDiet } = createMealBodySchema.parse(
             req.body
@@ -24,8 +43,8 @@ export async function mealsRoutes(app: FastifyInstance) {
 
         const user = await prisma.user.findUnique({
             where: {
-                name: username,
-            },
+                name: username
+            }
         });
 
         if (!user) {
@@ -38,9 +57,9 @@ export async function mealsRoutes(app: FastifyInstance) {
                 description,
                 withinDiet,
                 user: {
-                    connect: { id: user.id },
-                },
-            },
+                    connect: { id: user.id }
+                }
+            }
         });
 
         return res.status(201).send();
