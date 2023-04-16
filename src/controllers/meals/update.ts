@@ -50,7 +50,7 @@ export async function update(req: FastifyRequest, res: FastifyReply) {
         }
     });
 
-    return res.status(200).send({ updated: updatedMeal });
+    return res.status(200).send({ updatedMeal });
 }
 
 

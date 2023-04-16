@@ -4,7 +4,7 @@ import { z } from "zod";
 
 const prisma = new PrismaClient();
 
-export async function remove(req: FastifyRequest, res: FastifyReply) {
+export async function get(req: FastifyRequest, res: FastifyReply) {
     const dataParamsSchema = z.object({
         username: z.string(),
         mealName: z.string()
@@ -25,15 +25,5 @@ export async function remove(req: FastifyRequest, res: FastifyReply) {
         }
     });
 
-    if (!meal) {
-        return res.status(404).send({ message: "Not founded." });
-    }
-
-    await prisma.meal.delete({
-        where: {
-            id: meal.meals[0].id
-        }
-    });
-
-    return res.status(200).send();
+    return res.status(200).send({ meal });
 }

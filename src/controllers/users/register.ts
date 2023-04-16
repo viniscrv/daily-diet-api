@@ -6,15 +6,15 @@ const prisma = new PrismaClient();
 
 export async function register(req: FastifyRequest, res: FastifyReply) {
     const createUserBodySchema = z.object({
-        name: z.string(),
+        name: z.string()
     });
 
     const { name } = createUserBodySchema.parse(req.body);
 
     await prisma.user.create({
         data: {
-            name,
-        },
+            name
+        }
     });
 
     return res.status(201).send();

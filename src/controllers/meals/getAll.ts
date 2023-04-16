@@ -20,5 +20,5 @@ export async function getAll(req: FastifyRequest, res: FastifyReply) {
         }
     });
 
-    return res.status(200).send({ allMeals: userMeals });
+    return res.status(200).send({ userMeals });
 }
