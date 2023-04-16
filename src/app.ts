@@ -1,6 +1,6 @@
 import fastify from "fastify";
-import { userRoutes } from "./routes/user";
-import { mealsRoutes } from "./routes/meal";
+import { userRoutes } from "./controllers/users/routes";
+import { mealsRoutes } from "./controllers/meals/routes";
 
 export const app = fastify();
 
