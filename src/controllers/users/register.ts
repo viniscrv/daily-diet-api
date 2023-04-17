@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
+import crypto from "node:crypto";
 
 const prisma = new PrismaClient();
 
@@ -11,9 +12,20 @@ export async function register(req: FastifyRequest, res: FastifyReply) {
 
     const { name } = createUserBodySchema.parse(req.body);
 
+    let sessionId = req.cookies.sessionId;
+
+    if (!sessionId) {
+        sessionId = crypto.randomUUID();
+        res.cookie("sessionId", sessionId, {
+            path: "/",
+            maxAge: 1000 * 60 * 60 * 24 * 7 // 7 days
+        });
+    }
+
     await prisma.user.create({
         data: {
-            name
+            name,
+            sessionId
         }
     });
 

@@ -12,11 +12,12 @@ export async function update(req: FastifyRequest, res: FastifyReply) {
     });
 
     const dataParamsSchema = z.object({
-        username: z.string(),
         mealName: z.string()
     });
 
-    const { username, mealName } = dataParamsSchema.parse(req.params);
+    const { mealName } = dataParamsSchema.parse(req.params);
+
+    const { sessionId } = req.cookies;
 
     const { name, description, withinDiet } = createMealBodySchema.parse(
         req.body
@@ -24,15 +25,15 @@ export async function update(req: FastifyRequest, res: FastifyReply) {
 
     const meal = await prisma.user.findUnique({
         where: {
-            name: username
+            sessionId
         },
         select: {
             meals: {
                 where: {
-                    name: mealName,
+                    name: mealName
                 }
             }
-        },
+        }
     });
 
     if (!meal) {
@@ -52,5 +53,3 @@ export async function update(req: FastifyRequest, res: FastifyReply) {
 
     return res.status(200).send({ updatedMeal });
 }
-
-

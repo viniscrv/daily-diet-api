@@ -11,11 +11,7 @@ export async function register(req: FastifyRequest, res: FastifyReply) {
         withinDiet: z.boolean()
     });
 
-    const usernameParamsSchema = z.object({
-        username: z.string()
-    });
-
-    const { username } = usernameParamsSchema.parse(req.params);
+    const { sessionId } = req.cookies;
 
     const { name, description, withinDiet } = createMealBodySchema.parse(
         req.body
@@ -23,7 +19,7 @@ export async function register(req: FastifyRequest, res: FastifyReply) {
 
     const user = await prisma.user.findUnique({
         where: {
-            name: username
+            sessionId
         }
     });
 

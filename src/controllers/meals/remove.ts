@@ -6,15 +6,16 @@ const prisma = new PrismaClient();
 
 export async function remove(req: FastifyRequest, res: FastifyReply) {
     const dataParamsSchema = z.object({
-        username: z.string(),
         mealName: z.string()
     });
 
-    const { username, mealName } = dataParamsSchema.parse(req.params);
+    const { mealName } = dataParamsSchema.parse(req.params);
+
+    const { sessionId } = req.cookies;
 
     const meal = await prisma.user.findUnique({
         where: {
-            name: username
+            sessionId
         },
         select: {
             meals: {
