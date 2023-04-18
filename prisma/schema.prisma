@@ -24,7 +24,8 @@ model Meal {
   name        String
   description String
   withinDiet  Boolean
-  createdAt   DateTime @default(now())
+  date        DateTime
+  time        String
   userId      String
   user        User     @relation(fields: [userId], references: [id])
 

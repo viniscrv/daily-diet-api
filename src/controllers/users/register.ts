@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
-import crypto from "node:crypto";
 
 const prisma = new PrismaClient();
 

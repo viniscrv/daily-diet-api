@@ -1,11 +1,11 @@
 import fastify from "fastify";
-import { userRoutes } from "./controllers/users/routes";
+import { usersRoutes } from "./controllers/users/routes";
 import { mealsRoutes } from "./controllers/meals/routes";
-import cookie from "@fastify/cookie";
+import { fastifyCookie } from "@fastify/cookie";
 
 export const app = fastify();
 
-app.register(cookie);
+app.register(fastifyCookie);
 
-app.register(userRoutes);
+app.register(usersRoutes);
 app.register(mealsRoutes);
