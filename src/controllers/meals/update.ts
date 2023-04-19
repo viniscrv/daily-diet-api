@@ -6,11 +6,11 @@ const prisma = new PrismaClient();
 
 export async function update(req: FastifyRequest, res: FastifyReply) {
     const createMealBodySchema = z.object({
-        name: z.string().nullable(),
-        description: z.string().nullable(),
-        withinDiet: z.boolean().nullable(),
-        date: z.coerce.date().nullable(),
-        time: z.coerce.string().nullable()
+        name: z.string(),
+        description: z.string(),
+        withinDiet: z.boolean(),
+        date: z.coerce.date(),
+        time: z.coerce.string()
     });
 
     const dataParamsSchema = z.object({
